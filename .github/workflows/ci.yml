@@ -16,8 +16,8 @@ jobs:
         runs-on: ubuntu-latest
         container: joomlaprojects/docker-images:php8.3
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/cache@v4
+            - uses: actions/checkout@v6
+            - uses: actions/cache@v5
               id: cache-php
               with:
                   path: vendor
@@ -35,8 +35,8 @@ jobs:
         container: joomlaprojects/docker-images:php8.3
         needs: [composer]
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/cache/restore@v4
+            - uses: actions/checkout@v6
+            - uses: actions/cache/restore@v5
               with:
                   path: vendor
                   key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
@@ -52,8 +52,8 @@ jobs:
         needs: [code-style-php]
         continue-on-error: true
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/cache/restore@v4
+            - uses: actions/checkout@v6
+            - uses: actions/cache/restore@v5
               with:
                   path: vendor
                   key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
@@ -67,7 +67,7 @@ jobs:
         container: joomlaprojects/docker-images:php8.3
         needs: [code-style-php]
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
             - name: Run Unit tests
               run: |
                   git config --global --add safe.directory $GITHUB_WORKSPACE
@@ -83,7 +83,7 @@ jobs:
             matrix:
                 php_version: ['8.3', '8.4']
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
             - name: Run Unit tests
               run: |
                   git config --global --add safe.directory $GITHUB_WORKSPACE
@@ -98,9 +98,9 @@ jobs:
             matrix:
                 php_version: ['8.3', '8.4']
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
             - name: Setup PHP
-              uses: shivammathur/setup-php@v2
+              uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
               with:
                   php-version: ${{ matrix.php_version }}
                   extensions: openssl, mbstring, fileinfo, ftp
